@@ -23,7 +23,7 @@ public class Tokenizer
     /// </summary>
     private void GetTokenMatch()
     {
-      var tokenMatch = grammar.MatchAllrules(characters);
+      var tokenMatch = grammar.MatchAllRules(characters);
       AddTokenMatch(tokenMatch);
     }
 

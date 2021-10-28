@@ -13,7 +13,7 @@ public class Grammar
     {
       TokenMatch tokenMatch = new TokenMatch();
 
-      Regex reg = null;
+      bool isMatch = false;
 
       foreach (RegexRule rule in RegexRules)
       {
@@ -21,19 +21,18 @@ public class Grammar
         {
             tokenMatch.Match = rule.RegexPattern.Match(characters).ToString(); //"hej"
             tokenMatch.Token = rule.TokenType;  //WORD
-            reg = rule.RegexPattern; // ^/åöäd/
+            isMatch = true;
         }
       }
 
-      ThrowErrorOnNoMatch(reg, characters);
+      ThrowErrorOnNoMatch(isMatch, characters);
       return tokenMatch;
     }
 
-
 //--------------------------------------------------------------
-    public void ThrowErrorOnNoMatch(Regex reg, string characters)
+    public void ThrowErrorOnNoMatch(bool isMatch, string characters)
     {
-      if (reg == null && characters.Length > 0)
+      if (!isMatch && characters.Length > 0)
       {
         throw new Exception("No lexical element matches '" + characters[0] + "'.");
       }
