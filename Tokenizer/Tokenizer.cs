@@ -7,6 +7,7 @@ using Microsoft.VisualBasic;
 // något du kan fundera på är om du skulle kunna tillföra något genom att få fler klasser. 
 // Exempelvis TokenType (eller RegexRule) och TokenMatch 
 // samt om Grammar skulle kunna få mer ansvar än att bara vara en samling?
+namespace tokenizer {
 
 public class Tokenizer
 {
@@ -91,4 +92,4 @@ public class Tokenizer
         }
     }
 }
-
+}

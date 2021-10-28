@@ -2,7 +2,9 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System;
 
-public class Grammar 
+namespace tokenizer 
+{
+public class Grammar
 {
     private readonly Dictionary<string, Regex> grammar = new Dictionary<string, Regex>();
 
@@ -52,3 +54,4 @@ public class Grammar
         return grammar;
     }
   }
+}
