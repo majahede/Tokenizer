@@ -7,12 +7,13 @@ namespace l1
     {
        static void Main(string[] args)
     {
-      Grammar wordAndDotGrammar  = new Grammar();
+        Grammar wordAndDotGrammar  = new Grammar();
+        RegexRule r = new RegexRule("WORD", "^[\\w|åäöÅÄÖ]+");
+        wordAndDotGrammar.Add(r);
+        r = new RegexRule("DOT", "^\\.");
+        wordAndDotGrammar.Add(r);
 
-        wordAndDotGrammar.Add("WORD", "^[\\w|åäöÅÄÖ]+");
-        wordAndDotGrammar.Add("DOT", "^\\.");
-
-        Tokenizer textTokenizer = new Tokenizer(wordAndDotGrammar, " ");
+        Tokenizer textTokenizer = new Tokenizer(wordAndDotGrammar, "A cat .");
 
         Console.WriteLine(textTokenizer.GetActiveToken()); // Expected output: [WORD, A] 
         Console.WriteLine(textTokenizer.GetNextToken()); // Expected output: [WORD, cat]

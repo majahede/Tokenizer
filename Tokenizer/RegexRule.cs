@@ -1,19 +1,18 @@
-using System.Dynamic;
 using System.Text.RegularExpressions;
-using System.Xml.Schema;
-using Xunit.Sdk;
 
 namespace tokenizer
 {
     public class RegexRule
     {
-        public string RegexPattern { get; }
-        public string TokenType { get; }
+    private readonly string regexPattern;
 
-        public RegexRule(string tokenType, string regexPattern)
+    public string TokenType { get; }
+    public Regex RegexPattern  => new Regex(regexPattern);
+
+    public RegexRule(string tokenType, string regexPattern)
         {
           TokenType = tokenType;
-          RegexPattern = regexPattern;
+          this.regexPattern = regexPattern;
         }
     }
 }
