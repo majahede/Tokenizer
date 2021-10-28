@@ -8,32 +8,29 @@ public class Grammar
   {
     public List<RegexRule> RegexRules { get; } = new List<RegexRule>();
 
-    public KeyValuePair<string, string> MatchAllrules(string characters)
+//-------------------------------------------------------
+    public TokenMatch MatchAllRules(string characters)
     {
-      string match = "";
-      string token = "";
+      TokenMatch tokenMatch = new TokenMatch();
+
       Regex reg = null;
 
       foreach (RegexRule rule in RegexRules)
       {
-        if (rule.RegexPattern.Match(characters).Length > match.Length)
+        if (rule.RegexPattern.Match(characters).Length > tokenMatch.Match.Length)
         {
-          match = rule.RegexPattern.Match(characters).ToString();
-          token = rule.TokenType;
-          reg = rule.RegexPattern;
+            tokenMatch.Match = rule.RegexPattern.Match(characters).ToString(); //"hej"
+            tokenMatch.Token = rule.TokenType;  //WORD
+            reg = rule.RegexPattern; // ^/åöäd/
         }
       }
 
       ThrowErrorOnNoMatch(reg, characters);
-
-      if (characters.Length == 0)
-      {
-        return new KeyValuePair<string, string>("END", "");
-      }
-
-      return new KeyValuePair<string, string>(token, match);
+      return tokenMatch;
     }
 
+
+//--------------------------------------------------------------
     public void ThrowErrorOnNoMatch(Regex reg, string characters)
     {
       if (reg == null && characters.Length > 0)
@@ -41,6 +38,8 @@ public class Grammar
         throw new Exception("No lexical element matches '" + characters[0] + "'.");
       }
     }
+
+//-------------------------------------------------------------------------------
     public void Add(RegexRule rule)
     {
       RegexRules.Add(rule);

@@ -2,17 +2,15 @@ using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-// något du kan fundera på är om du skulle kunna tillföra något genom att få fler klasser. 
-// Exempelvis TokenType (eller RegexRule) och TokenMatch 
-
-namespace tokenizer 
+namespace tokenizer
 {
 public class Tokenizer
   {
-    private readonly List<KeyValuePair<string, string>> tokens = new List<KeyValuePair<string, string>>();
+  
+    private readonly List<TokenMatch> tokens = new List<TokenMatch>();
     private string characters;
     private int activeTokenIndex = 0;
-    private Grammar grammar;
+    private readonly Grammar grammar;
 
     public Tokenizer(Grammar grammar, string characters)
     {
@@ -25,20 +23,20 @@ public class Tokenizer
     /// </summary>
     private void GetTokenMatch()
     {
-      var match = grammar.MatchAllrules(characters);
-      AddTokenMatch(match);
+      var tokenMatch = grammar.MatchAllrules(characters);
+      AddTokenMatch(tokenMatch);
     }
 
     /// <summary>
     /// Adds the token and matching string to a list.
     /// </summary>
-    private void AddTokenMatch(KeyValuePair<string, string> match)
+    private void AddTokenMatch(TokenMatch tokenMatch)
     {
-      characters = characters[match.Value.Length..].TrimStart();
-      tokens.Add(match);
+      characters = characters[tokenMatch.Match.Length..].TrimStart();
+      tokens.Add(tokenMatch);
     }
 
-    public KeyValuePair<string, string> GetActiveToken()
+    public TokenMatch GetActiveToken()
     {
       if (tokens.Count <= activeTokenIndex)
       {
@@ -52,14 +50,14 @@ public class Tokenizer
       }
     }
 
-    public KeyValuePair<string, string> GetNextToken()
+    public TokenMatch GetNextToken()
     {
       ThrowErrorOnEndOfString();
       activeTokenIndex++;
       return GetActiveToken();
     }
 
-    public KeyValuePair<string, string> GetPreviousToken()
+    public TokenMatch GetPreviousToken()
     {
       activeTokenIndex--;
       ThrowErrorOnStartOfString();
@@ -76,7 +74,7 @@ public class Tokenizer
 
     public void ThrowErrorOnEndOfString()
     {
-      if (GetActiveToken().Key == "END")
+      if (GetActiveToken().Token == "END")
       {
         throw new IndexOutOfRangeException("You have reached the end of the string.");
       }
