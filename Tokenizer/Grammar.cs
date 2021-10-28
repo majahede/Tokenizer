@@ -2,56 +2,58 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System;
 
-namespace tokenizer 
+namespace tokenizer
 {
 public class Grammar
-{
-    private readonly Dictionary<string, Regex> grammar = new Dictionary<string, Regex>();
+  {
+    private readonly RegexRule[] regexRules;
 
-    public KeyValuePair<string, string> MatchAllrules(string tokenString) {
-        string matchingString = "";
-        string token = "";
-        Regex reg = null;
+    public KeyValuePair<string, string> MatchAllrules(string characters)
+    {
+      string match = "";
+      string token = "";
+      Regex reg = null;
 
-        foreach ( KeyValuePair<string, Regex> rgx in grammar)
-          {
-          if (rgx.Value.Match(tokenString).Length > matchingString.Length)
-          {
-            matchingString = rgx.Value.Match(tokenString).ToString();
-            token = rgx.Key;
-            reg = rgx.Value;
-          }
-        }
-
-      ThrowErrorOnNoMatch(reg, tokenString);
-
-      if(tokenString.Length == 0)
+      foreach (RegexRule rule in regexRules)
+      {
+        if (rgx.Value.Match(characters).Length > match.Length)
         {
-            return new KeyValuePair<string, string>("END", "");
+          match = rgx.Value.Match(characters).ToString();
+          token = rgx.Key;
+          reg = rgx.Value;
         }
+      }
 
-      return new KeyValuePair<string, string>(token, matchingString);
+      ThrowErrorOnNoMatch(reg, characters);
+
+      if (characters.Length == 0)
+      {
+        return new KeyValuePair<string, string>("END", "");
+      }
+
+      return new KeyValuePair<string, string>(token, match);
     }
 
-     public void ThrowErrorOnNoMatch(Regex reg, string tokenString) {
-        if(reg == null && tokenString.Length > 0)
-        {
-          throw new Exception("No lexical element matches '" + tokenString[0] + "'." );
-        }
-     }
+    public void ThrowErrorOnNoMatch(Regex reg, string characters)
+    {
+      if (reg == null && characters.Length > 0)
+      {
+        throw new Exception("No lexical element matches '" + characters[0] + "'.");
+      }
+    }
 
     /// <summary>
     /// Adds a token and mathcing regex to grammar.
     /// </summary>
     public void Add(string token, string regex)
     {
-        Regex pattern = new Regex(regex);
-        grammar.Add(token, pattern);
+      Regex pattern = new Regex(regex);
+      grammar.Add(token, pattern);
     }
 
     public Dictionary<string, Regex> GetGrammar()
     {
-        return grammar;
+      return grammar;
     }
   }
 }
