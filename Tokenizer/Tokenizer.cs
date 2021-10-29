@@ -6,11 +6,13 @@ namespace tokenizer
 {
 public class Tokenizer
   {
-  
+
     private readonly List<TokenMatch> tokens = new List<TokenMatch>();
     private string characters;
-    private int activeTokenIndex = 0;
+    private int activeTokenIndex;
     private readonly Grammar grammar;
+
+    public TokenMatch ActiveToken => GetActiveToken(activeTokenIndex);
 
     public Tokenizer(Grammar grammar, string characters)
     {
@@ -18,63 +20,38 @@ public class Tokenizer
       this.characters = characters.TrimStart();
     }
 
-    /// <summary>
-    /// Looks for the tokenmatch for a string.
-    /// </summary>
     private void GetTokenMatch()
     {
       var tokenMatch = grammar.MatchAllRules(characters);
       AddTokenMatch(tokenMatch);
     }
 
-    /// <summary>
-    /// Adds the token and matching string to a list.
-    /// </summary>
     private void AddTokenMatch(TokenMatch tokenMatch)
     {
       characters = characters[tokenMatch.Match.Length..].TrimStart();
       tokens.Add(tokenMatch);
     }
 
-    public TokenMatch GetActiveToken()
+    public TokenMatch GetActiveToken(int index)
     {
-      if (tokens.Count <= activeTokenIndex)
+      if (tokens.Count <= index)
       {
         GetTokenMatch();
-
-        return tokens[activeTokenIndex];
       }
-      else
-      {
-        return tokens[activeTokenIndex];
-      }
+
+     ThrowErrorOnStartOfString();
+     ThrowErrorOnEndOfString();
+
+     return tokens[index];
     }
 
-    public TokenMatch GetNextToken()
-    {
-      ThrowErrorOnEndOfString();
-      activeTokenIndex++;
-      return GetActiveToken();
-    }
+    public void GetNextToken() => activeTokenIndex++;
 
-    public TokenMatch GetPreviousToken()
-    {
-      activeTokenIndex--;
-      ThrowErrorOnStartOfString();
-      return GetActiveToken();
-    }
-
-    public void ThrowErrorOnNoMatch(Regex reg)
-    {
-      if (reg == null && characters.Length > 0)
-      {
-        throw new Exception("No lexical element matches '" + characters[0] + "'.");
-      }
-    }
+    public void GetPreviousToken() => activeTokenIndex--;
 
     public void ThrowErrorOnEndOfString()
     {
-      if (GetActiveToken().Token == "END")
+      if (tokens.Count > 2 && tokens[activeTokenIndex - 1].Token == "END")
       {
         throw new IndexOutOfRangeException("You have reached the end of the string.");
       }
@@ -88,5 +65,4 @@ public class Tokenizer
       }
     }
   }
-
 }

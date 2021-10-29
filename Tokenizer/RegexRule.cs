@@ -14,6 +14,10 @@ namespace tokenizer
               TokenType = tokenType;
               this.regexPattern = regexPattern;
             }
+
+        public bool IsMatch(string characters) {
+            return RegexPattern.IsMatch(characters);
+        }
     }
 }
 

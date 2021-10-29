@@ -15,13 +15,29 @@ public class MaximalMunchGrammarTest
       return maximalMunchGrammar;
     }
 
+    public int GetNext(int steps, Tokenizer t) {
+      for (int i = 0; i < steps; i++) {
+        _ = t.ActiveToken;
+        t.GetNextToken();
+      }
+      return steps;
+    }
+
+    public int GetPrevious(int steps, Tokenizer t) {
+      for (int i = 0; i < steps; i++) {
+        _ = t.ActiveToken;
+        t.GetPreviousToken();
+      }
+      return steps;
+    }
+
     [Fact]
     public void TC1()
     {
     Tokenizer t = new Tokenizer(GetMaximalMunchGrammar(), "3.14");
 
-    Assert.Equal("FLOAT", t.GetActiveToken().Token);
-    Assert.Equal("3.14", t.GetActiveToken().Match);
+    Assert.Equal("FLOAT", t.ActiveToken.Token);
+    Assert.Equal("3.14", t.ActiveToken.Match);
     }
 
     [Fact]
@@ -29,40 +45,36 @@ public class MaximalMunchGrammarTest
     {
     Tokenizer t = new Tokenizer(GetMaximalMunchGrammar(), "3");
 
-    Assert.Equal("INTEGER", t.GetActiveToken().Token);
-    Assert.Equal("3", t.GetActiveToken().Match);
+    Assert.Equal("INTEGER", t.ActiveToken.Token);
+    Assert.Equal("3", t.ActiveToken.Match);
     }
 
     [Fact]
     public void TC3()
     {
     Tokenizer t = new Tokenizer(GetMaximalMunchGrammar(), "3.14 6 4.5");
-    t.GetActiveToken();
-    t.GetNextToken();
-    t.GetNextToken();
+    GetNext(2, t);
 
-    Assert.Equal("FLOAT", t.GetActiveToken().Token);
-    Assert.Equal("4.5", t.GetActiveToken().Match);
+    Assert.Equal("FLOAT", t.ActiveToken.Token);
+    Assert.Equal("4.5", t.ActiveToken.Match);
     }
 
     [Fact]
     public void TC4()
     {
     Tokenizer t = new Tokenizer(GetMaximalMunchGrammar(), "5     10 6.4");
-    t.GetActiveToken();
-    t.GetNextToken();
-    t.GetNextToken();
-    t.GetPreviousToken();
+    GetNext(2, t);
+    GetPrevious(1, t);
 
-    Assert.Equal("INTEGER", t.GetActiveToken().Token);
-    Assert.Equal("10", t.GetActiveToken().Match);
+    Assert.Equal("INTEGER", t.ActiveToken.Token);
+    Assert.Equal("10", t.ActiveToken.Match);
     }
 
     [Fact]
     public void TC5()
     {
     Tokenizer t = new Tokenizer(GetMaximalMunchGrammar(), "5.6 + 10");
-    t.GetActiveToken();
-    Assert.Throws<Exception>(() => t.GetNextToken());
+    GetNext(1, t);
+    Assert.Throws<Exception>(() => t.ActiveToken);
     }
 }

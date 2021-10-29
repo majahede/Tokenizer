@@ -8,7 +8,6 @@ public class Grammar
   {
     public List<RegexRule> RegexRules { get; } = new List<RegexRule>();
 
-//-------------------------------------------------------
     public TokenMatch MatchAllRules(string characters)
     {
       TokenMatch tokenMatch = new TokenMatch();
@@ -19,8 +18,8 @@ public class Grammar
       {
         if (rule.RegexPattern.Match(characters).Length > tokenMatch.Match.Length)
         {
-            tokenMatch.Match = rule.RegexPattern.Match(characters).ToString(); //"hej"
-            tokenMatch.Token = rule.TokenType;  //WORD
+            tokenMatch.Match = rule.RegexPattern.Match(characters).ToString();
+            tokenMatch.Token = rule.TokenType;
             isMatch = true;
         }
       }
@@ -29,7 +28,6 @@ public class Grammar
       return tokenMatch;
     }
 
-//--------------------------------------------------------------
     public void ThrowErrorOnNoMatch(bool isMatch, string characters)
     {
       if (!isMatch && characters.Length > 0)
@@ -38,7 +36,6 @@ public class Grammar
       }
     }
 
-//-------------------------------------------------------------------------------
     public void Add(RegexRule rule)
     {
       RegexRules.Add(rule);
