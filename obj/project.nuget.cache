@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "74C4ovy3k7gVYpqzfW768SVvCtJw7tKNCSMB+TdajWFUvdisuYVLDHhu7rae7mHyzuEypMCGnsKHmuNIBHEJ5g==",
+  "dgSpecHash": "A+TjaXHOnhA3KmIkyl878FvkCHmHQfRNSqjpTl4nUsb80byyStUfSp5Wf5zgu2FpQ00M7yvqbVDyJGov/vYzdw==",
   "success": true,
-  "projectFilePath": "D:\\repos\\Parser\\Tokenizer\\Tokenizer.csproj",
+  "projectFilePath": "d:\\repos\\Parser\\Tokenizer\\Tokenizer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maja\\.nuget\\packages\\microsoft.codecoverage\\17.0.0\\microsoft.codecoverage.17.0.0.nupkg.sha512",
     "C:\\Users\\maja\\.nuget\\packages\\microsoft.csharp\\4.0.1\\microsoft.csharp.4.0.1.nupkg.sha512",

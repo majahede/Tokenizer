@@ -21,4 +21,3 @@ namespace tokenizer
     }
 }
 
-// någon error handling?

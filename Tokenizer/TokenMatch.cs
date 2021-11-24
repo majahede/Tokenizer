@@ -7,4 +7,3 @@ namespace tokenizer
   }
 }
 
-    //    return new KeyValuePair<string, string>("END", "");
