@@ -10,12 +10,13 @@ namespace tokenizer
         public Regex RegexPattern  => new Regex(regexPattern);
 
         public RegexRule(string tokenType, string regexPattern)
-            {
-              TokenType = tokenType;
-              this.regexPattern = regexPattern;
-            }
+        {
+            TokenType = tokenType;
+            this.regexPattern = regexPattern;
+        }
 
-        public bool IsMatch(string characters) {
+        public bool IsMatch(string characters) 
+        {
             return RegexPattern.IsMatch(characters);
         }
     }
